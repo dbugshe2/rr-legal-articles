@@ -3,7 +3,7 @@
     "types": ["vitest/globals", "@testing-library/jest-dom"],
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
     "baseUrl": ".",
@@ -11,8 +11,7 @@
       "*": ["./src/*"],
       "/*": ["./public/*"],
       "ui/*": ["./src/ui/*"],
-      "app/*": ["./src/app/*"],
-      "assets/*": ["./src/assets/*"]
+      "app/*": ["./src/app/*"]
     },
 
     /* Bundler mode */
@@ -30,7 +29,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "verbatimModuleSyntax": true,
-    "allowJs": false,
+    "allowJs": true,
 
     /* Linting */
     "strict": true,

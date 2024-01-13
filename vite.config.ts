@@ -18,7 +18,7 @@ export default defineConfig({
   plugins: [
     tsconfigPaths(),
     react(),
-    checker({ typescript: true }),
+    // checker({ typescript: true }),
     !process.env.VITEST ? checker({ typescript: true }) : undefined,
   ],
 });
