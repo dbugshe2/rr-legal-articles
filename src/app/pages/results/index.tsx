@@ -1,11 +1,5 @@
-import { routes } from "constants/routes";
-import { Link } from "react-router-dom";
+import { Results } from "ui/components";
 
 export const ResultsPage = () => {
-  return (
-    <div>
-      <h1>ResultsPage</h1>
-      <Link to={routes.createArticle.path}>Create Article</Link>
-    </div>
-  );
+  return <Results />;
 };
