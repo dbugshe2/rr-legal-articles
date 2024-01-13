@@ -28,8 +28,8 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "verbatimModuleSyntax": true,
     "allowJs": true,
+    "verbatimModuleSyntax": false,
 
     /* Linting */
     "strict": true,
