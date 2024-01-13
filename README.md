@@ -35,6 +35,27 @@ This project was bootstrapped with [Vite](https://vitejs.dev/) using the `react-
 - [ ] vitetest (testing)
 - [x] SWR (data fetching)
 
+## Process
+
+### Specification
+
+    •	Build  a Frontend react app using vite
+    •	Configure eslint, prettier (optional)
+    •	Two pages
+    ◦	Results page
+    ▪	Users can look for existing articles by author name or title. There will be a single input and a search button
+    ◦	Article creation page
+    ▪	The form will be connected to a free online API. I.e https://jsonplaceholder.typicode.com/
+    ▪	The form needs to have client validation.
+    ▪	The form needs to be submitted.
+    ▪	The form will allow users to enter a snippet of a law article or some other long-form content. The form will also contain the personal information of the attorney who proposed the article. I.e name, contact information
+    •	React router (or Tanstack alternative)
+    •	Unit tests should be added (either vitest or jest)(optional)
+
+### sketches
+
+![UI Sketch](/public/ui-sketch.jpg)
+
 ## Screenshots
 
 ## Available Scripts
