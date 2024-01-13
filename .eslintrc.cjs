@@ -3,7 +3,7 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   globals: {
-    ...vitest.environments.env.globals
+    ...vitest.environments.env.globals,
   },
   extends: [
     // get recommended rules without having to manually extend
@@ -58,20 +58,15 @@ module.exports = {
     "setupTests.ts",
     "commitlint.config.cjs",
     "postcss.config.js",
-    "vite.config.ts"
+    "vite.config.ts",
   ],
   parser: "@typescript-eslint/parser",
   plugins: ["react-refresh", "import", "vitest"],
   rules: {
     "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
     "import/no-unresolved": "error",
-    "@typescript-eslint/no-unsafe-assignment": "warn",
-    "@typescript-eslint/no-unsafe-call": "warn",
-    "@typescript-eslint/no-unsafe-member-access": "warn",
-    "@typescript-eslint/no-unsafe-return": "warn",
-    "@typescript-eslint/no-unsafe-argument": "warn",
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { varsIgnorePattern: "React" }],
     ...vitest.configs.recommended.rules,
   },
   parserOptions: {
