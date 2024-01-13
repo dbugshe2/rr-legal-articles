@@ -1,0 +1,14 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"],
+      "/*": ["./public/*"],
+      "ui/*": ["./src/ui/*"],
+      "app/*": ["./src/app/*"],
+      "assets/*": ["./src/assets/*"]
+    }
+  }
+}
