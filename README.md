@@ -58,6 +58,10 @@ This project was bootstrapped with [Vite](https://vitejs.dev/) using the `react-
 
 ## Screenshots
 
+![Home Page](/public/homepage-empty.png)
+
+![UI Sketch](/public/create-article.png)
+
 ## Available Scripts
 
 In the project directory, you can run:
