@@ -34,6 +34,8 @@ This project was bootstrapped with [Vite](https://vitejs.dev/) using the `react-
 - [x] react-hook-for and zod (form state and validation)
 - [ ] vitetest (testing)
 - [x] SWR (data fetching)
+- [] search filter (client side)
+- [] Pagination (client-side)
 
 ## Process
 

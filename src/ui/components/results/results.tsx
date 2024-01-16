@@ -23,8 +23,8 @@ interface PropType {
 
 export const Results = (props: PropType = { data: [], isLoading: false }) => {
   const { links, hasNext, hasPrevious, onNext, onPrevious } = usePagination({
-    totalItems: 1000, // required
-    perPage: 24, // optional
+    totalItems: props.data?.length || 0, // required
+    perPage: 20, // optional
     maxLinks: 7, // optional
     initialPage: 1, // optional
   });

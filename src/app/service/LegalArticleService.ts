@@ -2,7 +2,7 @@
 import axios from "axios";
 import type { RawAxiosRequestConfig } from "axios";
 
-const APP_USER_ID = "rrleagal";
+export const APP_USER_ID = "rrleagal";
 
 const BASE_URL = "https://jsonplaceholder.typicode.com/";
 
@@ -48,15 +48,16 @@ const axiosService = async (config: AxiosServiceRequestConfig = axiosServiceRequ
 export { axiosService };
 
 export class ArticlesApi {
-  static fetchAllArticles = async (options: AxiosServiceRequestConfig = {}) => {
-    const _options: AxiosServiceRequestConfig = Object.assign(options, {
+  /** fetch articles form session storage */
+  static fetchAllArticles = async () => {
+    const _options: AxiosServiceRequestConfig = {
       url: BASE_URL.concat("posts"),
       method: "GET",
-    });
+    };
 
     const response = await axiosService(_options);
 
-    return response?.data || [];
+    return response?.data;
   };
 
   static createArticle = async (options: AxiosServiceRequestConfig = {}) => {

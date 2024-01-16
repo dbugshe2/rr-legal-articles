@@ -1,51 +1,61 @@
-import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "..";
-import { ArrowLeftIcon } from "@radix-ui/react-icons";
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { Button, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "..";
+import { ArrowLeftIcon, ReloadIcon } from "@radix-ui/react-icons";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { useNavigate } from "react-router-dom";
 import * as z from "zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { ArticlesApi } from "app/service";
+import { APP_USER_ID, ArticlesApi } from "app/service";
 import { handleFormSubmission } from "ui/utils";
-const stringError = (title: string) => ({
-  required_error: `${title} is required`,
-});
+import { useSessionStorage } from "usehooks-ts";
+import { IResultItem } from "types";
 
 const createArtcleSchema = z.object({
-  author: z.string(stringError("Author")).min(1, "kindly enter the author name").nonempty("required field"),
-  title: z.string(stringError("Title")).min(1, "kindly enter the article title").nonempty("required field"),
-  userId: z.string().min(1, "").nonempty("required field"),
-  publishedAt: z.string().min(1, "").nonempty("required field"),
-  content: z.string(stringError("Content")).min(1, "kindly enter some content").nonempty("required field"),
+  title: z.string().min(1, "kindly enter the article title").max(225, "article is too long"),
+  body: z
+    .object({
+      content: z.string().min(1, "kindly enter some content"),
+      author: z.string().min(1, "kindly enter the author name"),
+    })
+    .required(),
+  userId: z.string(),
 });
 
-type CreateArticlePayload = z.infer<typeof createArtcleSchema>;
+type CreateArticleFormType = z.infer<typeof createArtcleSchema>;
 
 export const CreateArticle = () => {
-  const [content, setContent] = useState<string>("");
   const navigate = useNavigate();
+  const [allArticles, saveArticles] = useSessionStorage<IResultItem[] | []>(APP_USER_ID, []);
 
-  const form = useForm<CreateArticlePayload>({
+  const form = useForm<CreateArticleFormType>({
     resolver: zodResolver(createArtcleSchema),
     defaultValues: {
-      author: "",
+      userId: APP_USER_ID,
       title: "",
-      userId: "",
-      publishedAt: "",
-      content: "",
+      body: {
+        author: "",
+        content: "",
+      },
     },
   });
 
-  const onSubmit = async (values: CreateArticlePayload) => {
+  const onSubmit = async (values: CreateArticleFormType) => {
     await handleFormSubmission({
       submitFn: ArticlesApi.createArticle,
       values: {
-        params: { ...values },
+        data: { ...values },
+        params: { userId: APP_USER_ID },
       },
-      successMsg: "profile details saved succesfully",
-      errorMsg: "saving profile details failed, kindly try again",
+      successMsg: "article saved succesfully",
+      errorMsg: "creating article failed, kindly try again",
+      onSuccess(data: IResultItem) {
+        const newData = [...allArticles] as IResultItem[];
+        newData.push(data);
+        saveArticles(newData);
+        navigate("/");
+      },
     });
   };
 
@@ -62,7 +72,7 @@ export const CreateArticle = () => {
           <Button
             variant={"secondary"}
             onClick={() => {
-              navigate(-1);
+              navigate("/");
             }}
           >
             <ArrowLeftIcon className="mr-2" />
@@ -72,84 +82,96 @@ export const CreateArticle = () => {
       </header>
       {/* header placeholder */}
       <div className="h-48" />
-      <div className="flex relative flex-col justify-center gap-4 p-4 ">
-        <div className="h-full">
+      <div className="flex relative flex-col justify-center gap-4 p-4">
+        <div className="h-full flex flex-col gap-8">
           {/* create article form*/}
           <Form {...form}>
-            <div className="flex flex-col md:flex-row min-h-96 justify-between gap-8">
-              <main className="flex flex-col gap-4 w-4/6">
-                <FormField
-                  name="title"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormLabel>Title</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Article Title" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
-                />
-
-                <FormItem>
-                  <FormLabel>Content</FormLabel>
-                  <div>
-                    <ReactQuill
-                      className="h-full overflow-y-auto"
-                      theme="snow"
-                      value={content}
-                      onBlur={() => {
-                        form.setValue("content", content);
-                      }}
-                      onChange={e => {
-                        setContent(e);
-                      }}
-                      modules={{
-                        toolbar: [
-                          [{ header: "1" }, { header: "2" }],
-                          ["bold", "italic", "underline", "strike"],
-                          [{ list: "ordered" }, { list: "bullet" }],
-                          ["link", "image", "video"],
-                          ["clean"],
-                        ],
-                      }}
-                    />
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              </main>
-              <aside className="rounded-md h-full bg-secondary text-secondary-foreground p-8 w-2/6 gap-4 flex flex-col">
-                <h4 className="text-xl">Extra Information</h4>
-                <hr />
-                <div>
-                  {" "}
+            <form
+              onSubmit={e => {
+                e.preventDefault();
+                form.handleSubmit(onSubmit);
+              }}
+              action=""
+              method="post"
+            >
+              <div className="flex flex-col md:flex-row min-h-96 max-h-full justify-between gap-8">
+                <main className="flex flex-col gap-4 w-4/6">
                   <FormField
-                    name="author"
+                    control={form.control}
+                    name="title"
                     render={({ field }) => {
                       return (
                         <FormItem>
-                          <FormLabel>Author</FormLabel>
+                          <FormLabel>Title</FormLabel>
                           <FormControl>
-                            <Input placeholder="Maroof Shittu" {...field} />
+                            <Input placeholder="Article Title" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       );
                     }}
                   />
-                </div>
-              </aside>
-            </div>
-            <Button
-              type="submit"
-              onClick={() => {
-                form.handleSubmit(onSubmit);
-              }}
-            >
-              Submit
-            </Button>
+
+                  <div>
+                    <FormLabel>Content</FormLabel>
+                    <Controller
+                      name="body.content"
+                      control={form.control}
+                      rules={{ required: "kindly enter article content" }}
+                      render={({ field }) => {
+                        return (
+                          <div>
+                            <ReactQuill
+                              theme="snow"
+                              {...field}
+                              modules={{
+                                toolbar: [
+                                  [{ header: "1" }, { header: "2" }],
+                                  ["bold", "italic", "underline", "strike"],
+                                  [{ list: "ordered" }, { list: "bullet" }],
+                                  ["link", "image", "video"],
+                                  ["clean"],
+                                ],
+                              }}
+                            />
+                          </div>
+                        );
+                      }}
+                    />
+                    <FormDescription>Article content</FormDescription>
+                    <FormMessage>{form.formState.errors?.body?.content?.message}</FormMessage>
+                  </div>
+                </main>
+                <aside className="rounded-md h-full bg-secondary text-secondary-foreground p-8 w-2/6 gap-4 flex flex-col flex-wrap ">
+                  <h4 className="text-xl">Extra Information</h4>
+                  <hr />
+                  <div>
+                    {/* article author */}
+                    <FormField
+                      control={form.control}
+                      name="body.author"
+                      render={({ field }) => {
+                        return (
+                          <FormItem>
+                            <FormLabel>Author</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Maroof Shittu" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  </div>
+                </aside>
+              </div>
+              <div className="flex justify-end items-center">
+                <Button type="submit" onClick={form.handleSubmit(onSubmit)}>
+                  {form.formState.isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+                  Submit
+                </Button>
+              </div>
+            </form>
           </Form>
         </div>
       </div>

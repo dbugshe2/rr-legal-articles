@@ -18,7 +18,7 @@ export const ResultItem = ({ data }: Record<string, any>) => {
           <div className="flex gap-2">
             <div>
               <Avatar>
-                <AvatarFallback>{data?.author?.name ? getInitials(data?.author?.name) : ""}</AvatarFallback>
+                <AvatarFallback>{data?.body?.author ? getInitials(data?.body?.author) : "M E"}</AvatarFallback>
               </Avatar>
             </div>
             <div className="flex flex-col gap-2 w-full">
@@ -27,16 +27,16 @@ export const ResultItem = ({ data }: Record<string, any>) => {
               <div className="flex justify-between w-full">
                 <div className="flex gap-4">
                   <p className="text-sm font-light text-secondary-foreground">
-                    {new Date(data?.publishedAt || undefined).toLocaleString()}
+                    {new Date(data?.publishedAt || Date.now()).toLocaleString()}
                   </p>
-                  <p className="text-sm text-foreground">By: {data?.author?.name}</p>
+                  <p className="text-sm text-foreground">By: {data?.body?.author || "you"}</p>
                 </div>
               </div>
             </div>
           </div>
         </AccordionTrigger>
         <AccordionContent className="bg-secondary p-8 text-wrap">
-          {ReactHtmlParser(`${data?.content}`)}
+          {ReactHtmlParser(`${data?.body?.content}`)}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

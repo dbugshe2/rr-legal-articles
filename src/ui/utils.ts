@@ -59,6 +59,7 @@ export async function handleFormSubmission({
     });
     onSuccess?.(response);
   } catch (error) {
+    console.log({ error });
     if (error instanceof Error) {
       toast({ title: "Something went wrong", description: errorMsg });
       onError?.(error);
