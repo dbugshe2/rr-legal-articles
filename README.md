@@ -54,7 +54,7 @@ This project was bootstrapped with [Vite](https://vitejs.dev/) using the `react-
 
 ### sketches
 
-![UI Sketch](/public/ui-sketch.jpg)
+![UI Sketch](/public/ui-sketch.png)
 
 ## Screenshots
 
