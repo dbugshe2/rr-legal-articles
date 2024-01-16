@@ -33,6 +33,9 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
+
+    /* custom vars */
+    --ql-toolbar-height: 24pxl;
   }
 
   .dark {
@@ -73,4 +76,32 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.quill {
+  min-height: 24rem;
+  position: relative;
+  outline: solid 1px var(--border);
+  background: white;
+}
+
+.quill .ql-toolbar {
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  z-index: 50;
+}
+
+.quill .ql-container {
+  min-height: 24rem;
+  width: 100%;
+  padding-top: 40px;
+  display: block;
+}
+
+.quill .ql-editor {
+  min-height: 24rem;
+  width: 100%;
+  padding-top: 40px;
+  display: block;
 }

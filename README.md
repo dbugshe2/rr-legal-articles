@@ -34,6 +34,8 @@ This project was bootstrapped with [Vite](https://vitejs.dev/) using the `react-
 - [x] react-hook-for and zod (form state and validation)
 - [ ] vitetest (testing)
 - [x] SWR (data fetching)
+- [] search filter (client side)
+- [] Pagination (client-side)
 
 ## Process
 
@@ -54,9 +56,13 @@ This project was bootstrapped with [Vite](https://vitejs.dev/) using the `react-
 
 ### sketches
 
-![UI Sketch](/public/ui-sketch.jpg)
+![UI Sketch](/public/ui-sketch.png)
 
 ## Screenshots
+
+![Home Page](/public/homepage-empty.png)
+
+![UI Sketch](/public/create-article.png)
 
 ## Available Scripts
 
